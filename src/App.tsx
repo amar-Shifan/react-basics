@@ -1,13 +1,20 @@
 import { useRef, useState , useEffect} from 'react'
 import Child from './child';
+import UI from './assets/ui';
 
 function App() {
   const [count, setCount] = useState(0);
-  const [data , setData] = useState('')
+  const [data , setData] = useState('');
+  const [text , setText] = useState('')
 
   interface counter{
     count: number
   }
+
+  const textRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    textRef.current?.focus()
+  })
 
   const DisplayCount = ({count}: counter) => {
     return <h1 className='text-teal-600'>Count : {count}</h1>
@@ -55,6 +62,8 @@ function App() {
   //   }
   // },[])
 
+  const users:string[] = ['amar' , 'sajjad' , 'fayis'];
+
   return (
     <div className='flex justify-center items-center w-full min-h-screen  bg-teal-200'>
       <div className='flex flex-col justify-around items-center w-full max-w-md h-52 bg-white rounded-lg shadow-md p-6'>
@@ -74,9 +83,26 @@ function App() {
       <div>
       {/* <h2>Timer: {seconds} seconds</h2>; */}
       <h2>Parent Component</h2>
-      <p>Data from Child: {data}</p>
+      <p>Data from Child: {data}</p> 
       <Child sendData={handleChild} />
+
+      <input 
+        type="text"
+        ref={textRef}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder='Please enter....'
+        />
+        <h1>Value : {text}</h1>
     </div>
+    <ul>
+      {users.map((user) => (
+        <li>{user}</li>
+      ))}
+    </ul> 
+    <UI name= 'amar' email = 'amar@gmail.com' />
+    <UI name= 'fayis' email = 'amar@gmail.com' />
+
     </div>
   )
 }
